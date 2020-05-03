@@ -1,0 +1,99 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>jstfs-web</artifactId>
+	<name>jstfs-web</name>
+	<packaging>war</packaging>
+
+	<parent>
+		<groupId>com.jstfs</groupId>
+		<artifactId>jstfs-pom</artifactId>
+		<version>1.0.0</version>
+		<relativePath>../jstfs-pom/pom.xml</relativePath>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.jstfs</groupId>
+			<artifactId>jstfs-common</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		
+		<!-- MySQL8.x驱动 -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		
+		<!-- Servlet API -->
+		<!-- javax.servlet:javax.servlet-api,这份API最新版是[4.0.1],更新时间[2018-04],应该还在维护 -->
+		<!-- javax.servlet:servlet-api,这份API最新版是[3.0-alpha-1],已经停留在[2008-04] 不升级了,应该是被官方废弃了 -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<!-- JSP API -->
+		<!-- javax.servlet.jsp:javax.servlet.jsp-api,这份API最新版目前是[2.3.3],更新时间[2018-08],应该还在维护 -->
+		<!-- javax.servlet.jsp:jsp-api,这份API最新版是[2.2.1-b03],已经停留在[2011-01]不升级了,应该是被官方废弃了 -->
+		<!-- javax.servlet:jsp-api,这份API最新版是[2.0],已经停留在[2006-01]不升级了,应该是被官方废弃了 -->
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+			<version>2.3.3</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<!-- JSTL API, 仅接口 -->
+		<!-- javax.servlet.jsp.jstl:jstl-api,这份API从GAV的命名上看应该是新坐标 -->
+		<!-- javax.servlet:jstl,这份API从GAV的命名上看应该是老坐标了,但是也能用 -->
+		<!-- javax.servlet.jsp.jstl:jstl,这份API在中央仓库已经没有jar包只有源码包了,应该是官方不建议用了 -->
+		<!-- 
+		<dependency>
+			<groupId>javax.servlet.jsp.jstl</groupId>
+			<artifactId>jstl-api</artifactId>
+			<version>1.2</version>
+			<scope>provided</scope>
+			<exclusions>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>servlet-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.servlet.jsp</groupId>
+                    <artifactId>jsp-api</artifactId>
+                </exclusion>
+            </exclusions>
+		</dependency>
+		 -->
+		
+		<!-- JSTL API, Apache的实现impl以及Apache自己的接口spec -->
+		<!-- 使用了Apache这一套JSTL API,就不需要上面java官方的JSTL API的接口了 -->
+		<dependency>
+			<groupId>org.apache.taglibs</groupId>
+			<artifactId>taglibs-standard-impl</artifactId>
+			<version>1.2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+            <groupId>org.apache.taglibs</groupId>
+            <artifactId>taglibs-standard-spec</artifactId>
+            <version>1.2.5</version>
+            <scope>provided</scope>
+        </dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- jetty插件 -->
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+			</plugin>
+		</plugins>		
+	</build>
+</project>
