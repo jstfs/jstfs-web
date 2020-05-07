@@ -3,28 +3,35 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<groupId>com.jstfs</groupId>
 	<artifactId>jstfs-web</artifactId>
-	<name>jstfs-web</name>
+	<version>1.0.0</version>
 	<packaging>war</packaging>
 
 	<parent>
 		<groupId>com.jstfs</groupId>
 		<artifactId>jstfs-pom</artifactId>
 		<version>1.0.0</version>
-		<relativePath>../jstfs-pom/pom.xml</relativePath>
 	</parent>
-
+	
 	<dependencies>
-		<dependency>
-			<groupId>com.jstfs</groupId>
-			<artifactId>jstfs-common</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		
 		<!-- MySQL8.x驱动 -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.20</version>
+		</dependency>
+		
+		<!-- commons工具类 -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.9</version>
+		</dependency>
+		<dependency>
+		    <groupId>commons-collections</groupId>
+		    <artifactId>commons-collections</artifactId>
+		    <version>3.2.2</version>
 		</dependency>
 		
 		<!-- Servlet API -->
@@ -69,7 +76,7 @@
                 </exclusion>
             </exclusions>
 		</dependency>
-		 -->
+		-->
 		
 		<!-- JSTL API, Apache的实现impl以及Apache自己的接口spec -->
 		<!-- 使用了Apache这一套JSTL API,就不需要上面java官方的JSTL API的接口了 -->
@@ -85,15 +92,52 @@
             <version>1.2.5</version>
             <scope>provided</scope>
         </dependency>
+        
 	</dependencies>
 
 	<build>
 		<plugins>
 			<!-- jetty插件 -->
+			<!-- jetty插件原本是由如下groupId来提供,最后的版本是:8.1.16.v20140903,时间为2014-09月 -->
+			<!-- 之后由eclipse所属公司来维护,如果使用JDK1.8,那么则需要使用eclipse维护的高版本jetty插件,比如下面的:9.4.6.v20170531 -->
+			<!-- 
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>8.1.16.v20140903</version>
+			</plugin> 
+			-->
+			
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.4.6.v20170531</version>
+				<configuration>
+					<!-- 
+					<reload>manual</reload>
+					 -->
+					<scanIntervalSeconds>5</scanIntervalSeconds>
+					<httpConnector>
+                       	<port>8082</port>
+                   	</httpConnector>
+					<webAppConfig>
+						<contextPath>/${project.artifactId}</contextPath>
+					</webAppConfig>
+					<requestLog implementation="org.eclipse.jetty.server.NCSARequestLog">
+						<filename>D:/jetty_log/access-yyyy_mm_dd.log</filename>
+						<filenameDateFormat>yyyy_MM_dd</filenameDateFormat>
+						<logDateFormat>yyyy-MM-dd HH:mm:ss</logDateFormat>
+						<logTimeZone>GMT+8:00</logTimeZone>
+						<append>true</append>
+						<logServer>true</logServer>
+						<retainDays>7</retainDays>
+						<logCookies>true</logCookies>
+					</requestLog>
+					<dumpOnStart>true</dumpOnStart>
+				</configuration>
 			</plugin>
-		</plugins>		
+			
+		</plugins>
+				
 	</build>
 </project>
